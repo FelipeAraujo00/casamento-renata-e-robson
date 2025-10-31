@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Convidados 💍</title>
+
+  <style>
+    /* --- Estilo romântico --- */
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #fff0f5, #ffe4e1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+      color: #4b2c35;
+    }
+
+    h1 {
+      font-family: "Great Vibes", cursive;
+      font-size: 48px;
+      color: #b23a48;
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      font-weight: normal;
+      color: #5a3d46;
+      margin-bottom: 30px;
+    }
+
+    .formulario {
+      background: #ffffffaa;
+      backdrop-filter: blur(4px);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 320px;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #b23a48;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #f7cad0;
+      border-radius: 8px;
+      background: #fffafc;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #b23a48;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #912c3d;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 340px;
+      margin-top: 30px;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    th {
+      background: #b23a48;
+      color: white;
+      padding: 10px;
+      font-size: 18px;
+      letter-spacing: 1px;
+    }
+
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #f5c6cb;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover {
+      background: #fff0f5;
+    }
+
+    .cora {
+      font-size: 22px;
+      color: #b23a48;
+      animation: pulse 1.2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.8; }
+    }
+  </style>
+
+  <!-- Fonte cursiva do Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+</head>
+<body>
+  <h1>💒 Casamento de Robson & Renata 💒</h1>
+  <h3>Confirme sua presença com amor <span class="cora">❤</span></h3>
+
+  <div class="formulario">
+    <form id="formConvidado">
+      <label for="nome">Nome do convidado:</label>
+      <input type="text" id="nome" placeholder="Digite seu nome" required>
+
+      <button type="submit">Adicionar à lista</button>
+    </form>
+  </div>
+
+  <table id="tabela">
+    <thead>
+      <tr>
+        <th>Convidados</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Os nomes serão inseridos aqui -->
+    </tbody>
+  </table>
+
+  <script>
+    // --- JAVASCRIPT ---
+    const form = document.getElementById('formConvidado');
+    const tabela = document.querySelector('#tabela tbody');
+
+    // Função para carregar a lista de convidados
+    function carregarConvidados() {
+      const lista = JSON.parse(localStorage.getItem('convidados')) || [];
+      tabela.innerHTML = '';
+      lista.forEach(convidado => {
+        const linha = document.createElement('tr');
+        linha.innerHTML = `<td>${convidado.nome}</td>`;
+        tabela.appendChild(linha);
+      });
+    }
+
+    // Evento de envio do formulário
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nome = document.getElementById('nome').value;
+
+      const novoConvidado = { nome };
+
+      // Pega a lista atual ou cria nova
+      const lista = JSON.parse(localStorage.getItem('convidados')) || [];
+
+      lista.push(novoConvidado);
+      localStorage.setItem('convidados', JSON.stringify(lista));
+
+      carregarConvidados();
+      form.reset();
+    });
+
+    // Carrega a lista ao abrir
+    window.onload = carregarConvidados;
+  </script>
+</body>
+</html>
+
